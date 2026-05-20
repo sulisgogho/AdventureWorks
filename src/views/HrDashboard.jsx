@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { Users, UserCheck, CalendarDays, HeartCrack, Building } from 'lucide-react'
+import api from '../api' // Pastikan kita menggunakan instance axios yang sudah dikonfigurasi
 
 export default function HrDashboard() {
   const [hrData, setHrData] = useState(null)
@@ -10,7 +11,8 @@ export default function HrDashboard() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8000/api/analytics/hr')
+    api
+      .get('/api/analytics/hr')
       .then((response) => {
         if (response.data && response.data.status === 'success') {
           setHrData(response.data.data)
