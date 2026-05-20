@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { ShoppingBag, TrendingUp, Percent, CreditCard, Users, Gift } from 'lucide-react'
+import api from '../utils/api' // Pastikan kita menggunakan instance axios yang sudah dikonfigurasi
 
 export default function B2CDashboard() {
   const [b2cData, setB2cData] = useState(null)
@@ -9,8 +10,8 @@ export default function B2CDashboard() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8000/api/analytics/b2c')
+    api
+      .get('/api/analytics/b2c')
       .then((response) => {
         if (response.data && response.data.status === 'success') {
           setB2cData(response.data.data)

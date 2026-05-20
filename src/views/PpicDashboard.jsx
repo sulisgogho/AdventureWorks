@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { Boxes, Layers, AlertCircle, Hourglass, LayoutGrid, BarChart3 } from 'lucide-react'
+import api from '../utils/api' // Pastikan kita menggunakan instance axios yang sudah dikonfigurasi
 
 export default function PpicDashboard() {
   const [data, setData] = useState(null)
@@ -9,8 +10,8 @@ export default function PpicDashboard() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8000/api/ppic')
+    api
+      .get('/api/ppic')
       .then((response) => {
         if (response.data && response.data.kpi) {
           setData(response.data)

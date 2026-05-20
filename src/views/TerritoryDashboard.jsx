@@ -1,40 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Globe, Package, Map, Flag, TrendingUp } from 'lucide-react';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import { Globe, Package, Map, Flag, TrendingUp } from 'lucide-react'
+import api from '../utils/api' // Pastikan kita menggunakan instance axios yang sudah dikonfigurasi
 
 export default function TerritoryDashboard() {
-  const [geoData, setGeoData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [geoData, setGeoData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/analytics/territory')
+    api
+      .get('/api/analytics/territory')
       .then((response) => {
-        if (response.data && response.data.status === "success") {
-          setGeoData(response.data.data);
+        if (response.data && response.data.status === 'success') {
+          setGeoData(response.data.data)
         } else {
-          setError(response.data?.message || "Gagal memproses data Teritori Penjualan.");
+          setError(response.data?.message || 'Gagal memproses data Teritori Penjualan.')
         }
-        setLoading(false);
+        setLoading(false)
       })
       .catch((err) => {
-        console.error("Error fetching Territory data:", err);
-        setError("Gagal terhubung ke API Territory. Pastikan server Uvicorn menyala!");
-        setLoading(false);
-      });
-  }, []);
+        console.error('Error fetching Territory data:', err)
+        setError('Gagal terhubung ke API Territory. Pastikan server Uvicorn menyala!')
+        setLoading(false)
+      })
+  }, [])
 
-  if (loading) return <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}><p>Menghitung kontribusi omset berdasarkan koordinat regional dan benua pemasaran...</p></div>;
-  if (error) return <div style={{ padding: '40px', textAlign: 'center', color: '#ef4444' }}><h3>🚨 Error Terjadi</h3><p>{error}</p></div>;
+  if (loading)
+    return (
+      <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}>
+        <p>Menghitung kontribusi omset berdasarkan koordinat regional dan benua pemasaran...</p>
+      </div>
+    )
+  if (error)
+    return (
+      <div style={{ padding: '40px', textAlign: 'center', color: '#ef4444' }}>
+        <h3>🚨 Error Terjadi</h3>
+        <p>{error}</p>
+      </div>
+    )
 
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(Number(value) || 0);
-  };
-  const formatNumber = (num) => new Intl.NumberFormat('en-US').format(num || 0);
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(Number(value) || 0)
+  }
+  const formatNumber = (num) => new Intl.NumberFormat('en-US').format(num || 0)
 
   // Palet warna estetik untuk diagram Donut wilayah global
-  const COLORS = ['#38bdf8', '#aa3bff', '#eab308', '#ef4444', '#22c55e'];
+  const COLORS = ['#38bdf8', '#aa3bff', '#eab308', '#ef4444', '#22c55e']
 
   return (
     <div style={{ textAlign: 'left' }}>
@@ -93,7 +106,6 @@ export default function TerritoryDashboard() {
          B. VISUALISASI CHARTS SECTION
          ========================================================== */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '25px', marginTop: '20px' }}>
-        
         {/* Diagram Donat: Kontribusi Makro Group (North America, Europe, Pacific) */}
         <div className="dashboard-card" style={{ display: 'flex', flexDirection: 'column', justifycontent: 'center' }}>
           <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '20px', color: '#f8fafc' }}>🍩 Macro Continental Market Share</h3>
@@ -122,14 +134,13 @@ export default function TerritoryDashboard() {
             <BarChart data={geoData?.country_performance || []}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
               <XAxis dataKey="TerritoryCountry" stroke="var(--text)" style={{ fontSize: '11px' }} />
-              <YAxis tickFormatter={(v) => `$${v/1e6}M`} stroke="var(--text)" style={{ fontSize: '12px' }} />
+              <YAxis tickFormatter={(v) => `$${v / 1e6}M`} stroke="var(--text)" style={{ fontSize: '12px' }} />
               <Tooltip formatter={(value) => formatCurrency(value)} />
               <Legend />
               <Bar dataKey="TotalRevenue" fill="#38bdf8" name="Revenue Outflow ($)" radius={[4, 4, 0, 0]} barSize={35} />
             </BarChart>
           </ResponsiveContainer>
         </div>
-
       </div>
 
       {/* ==========================================================
@@ -157,5 +168,5 @@ export default function TerritoryDashboard() {
         </table>
       </div>
     </div>
-  );
+  )
 }

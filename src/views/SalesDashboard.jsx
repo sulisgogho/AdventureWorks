@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { DollarSign, Percent, TrendingUp, ShoppingBag, Globe, Users } from 'lucide-react'
+import api from '../utils/api' // Pastikan kita menggunakan instance axios yang sudah dikonfigurasi
 
 export default function SalesDashboard() {
   const [data, setData] = useState(null)
@@ -9,8 +10,8 @@ export default function SalesDashboard() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8000/api/sales')
+    api
+      .get('/api/sales')
       .then((response) => {
         if (response.data && response.data.kpi) {
           setData(response.data)

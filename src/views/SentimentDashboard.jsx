@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts'
 import { Smile, Award, Users, MessageSquare, ThumbsUp } from 'lucide-react'
+import api from '../utils/api' // Pastikan kita menggunakan instance axios yang sudah dikonfigurasi
 
 export default function SentimentDashboard() {
   const [sentimentData, setSentimentData] = useState(null)
@@ -9,8 +10,8 @@ export default function SentimentDashboard() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8000/api/analytics/sentiment')
+    api
+      .get('/api/analytics/sentiment')
       .then((response) => {
         if (response.data && response.data.status === 'success') {
           setSentimentData(response.data.data)

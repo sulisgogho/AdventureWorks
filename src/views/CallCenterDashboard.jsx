@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { BarChart, Bar, Line, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { Phone, AlertCircle, ShoppingBasket, Clock, Percent, ShieldCheck } from 'lucide-react'
+import api from '../utils/api' // Pastikan kita menggunakan instance axios yang sudah dikonfigurasi
 
 export default function CallCenterDashboard() {
   const [ccData, setCcData] = useState(null)
@@ -9,8 +10,8 @@ export default function CallCenterDashboard() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8000/api/analytics/callcenter')
+    api
+      .get('/api/analytics/callcenter')
       .then((response) => {
         if (response.data && response.data.status === 'success') {
           setCcData(response.data.data)

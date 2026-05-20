@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { Wallet, Landmark, ArrowUpRight, Scale, Activity } from 'lucide-react'
+import api from '../utils/api' // Pastikan kita menggunakan instance axios yang sudah dikonfigurasi
 
 export default function FinanceDashboard() {
   const [finData, setFinData] = useState(null)
@@ -9,8 +10,8 @@ export default function FinanceDashboard() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8000/api/analytics/finance')
+    api
+      .get('/api/analytics/finance')
       .then((response) => {
         if (response.data && response.data.status === 'success') {
           setFinData(response.data.data)

@@ -10,7 +10,6 @@ export default function HrDashboard() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    axios
     api
       .get('/api/analytics/hr')
       .then((response) => {
