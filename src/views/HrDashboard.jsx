@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { Users, UserCheck, CalendarDays, HeartCrack, Building } from 'lucide-react'
-import api from '../api' // Pastikan kita menggunakan instance axios yang sudah dikonfigurasi
+import api from '../utils/api' // Pastikan kita menggunakan instance axios yang sudah dikonfigurasi
 
 export default function HrDashboard() {
   const [hrData, setHrData] = useState(null)
